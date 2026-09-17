@@ -1,0 +1,12 @@
+analysis.ipynb
+german_credit_data.csv
+__pycache__/
+*.pyc
+.git
+.gitignore
+.venv/
+venv/
+.DS_Store
+README.md
+.env
+.env.*
