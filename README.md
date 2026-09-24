@@ -114,6 +114,41 @@ The notebook performs EDA, trains Decision Tree / Random Forest / Extra Trees / 
 | `target_encoder.pkl`              | LabelEncoder for Risk (good/bad)     |
 
 To retrain, run the notebook end-to-end. It will overwrite the `.pkl` files.
+## Model performance
+
+Models were trained with 5-fold GridSearchCV (scoring = accuracy) on a train/test split of the German Credit Data. Results on the held-out test set:
+
+| Model            | Test Accuracy | Best params (summary)                                      |
+|------------------|---------------|------------------------------------------------------------|
+| Decision Tree    | 58.1%         | max_depth=5                                                |
+| Random Forest    | 61.9%         | n_estimators=100, min_samples_split=10                     |
+| **Extra Trees**  | **64.8%**     | max_depth=10, n_estimators=100, min_samples_leaf=2         |
+| XGBoost          | 65.7%         | learning_rate=0.2, max_depth=7, subsample=0.7              |
+
+Extra Trees was selected for the app (saved as `extra_trees_credit_model.pkl`) as a strong ensemble baseline with good balance of performance and simplicity. XGBoost edged it slightly on accuracy but Extra Trees was preferred for the final artefact.
+
+**Notes on metrics**
+- Dataset is imbalanced (~70% good / 30% bad credit).
+- Only accuracy was used for model selection. In a production credit system you would also track precision/recall for the “bad” class, ROC-AUC, and cost-sensitive metrics (false negatives are typically more expensive).
+- No cross-validated AUC, F1, or confusion matrix is currently reported in the notebook.
+
+## Dataset limitations (German Credit Data)
+
+This project uses the well-known [Statlog German Credit Data](https://archive.ics.uci.edu/dataset/144/statlog+german+credit+data) (1,000 applicants, ~1973–1975). Important caveats:
+
+| Limitation | Detail |
+|------------|--------|
+| **Age of data** | Collected ~50 years ago. Credit behaviour, products, and demographics have changed significantly. |
+| **Small sample** | Only 1,000 rows → limited statistical power and higher risk of overfitting. |
+| **Class imbalance** | ~700 good / 300 bad. Models can achieve decent accuracy by favouring the majority class. |
+| **Selection bias** | Only applicants who were granted credit appear. Rejected applicants (and their true outcomes) are missing. |
+| **Missing values** | `Saving accounts` and `Checking account` have many NaNs (treated as a category in this project). |
+| **Feature subset** | Original data has more attributes (e.g. Purpose). This model uses only 8 features. |
+| **Documentation / coding issues** | The widely circulated UCI version has known coding errors (see Grömping 2019 / South German Credit correction). Sex cannot always be reliably recovered from older “personal status & sex” encodings. |
+| **Fairness concerns** | Historical credit data often encodes societal biases (gender, age, foreign-worker status, etc.). Models trained on it can amplify those biases. This project does **not** include fairness or bias audits. |
+| **Cost asymmetry** | Misclassifying a bad applicant as good is typically more costly than the reverse. The original Statlog cost matrix reflects this (cost 5 vs 1); the current model optimises plain accuracy, not cost. |
+
+**Bottom line:** This is a solid educational / demo project. It is **not** suitable for real credit decisions without modern data, proper validation, fairness analysis, and regulatory review.
 
 ## Environment variables
 
