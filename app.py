@@ -6,7 +6,7 @@ import joblib
 
 from db import init_db, log_prediction, SessionLocal, PredictionLog
 
-MODEL_VERSION = "extar_trees_credit_model.pkl"  # bump/rename this if you retrain and re-save the model
+MODEL_VERSION = "extra_trees_credit_model.pkl" 
 
 st.set_page_config(
     page_title="Credit Risk Predictor",
