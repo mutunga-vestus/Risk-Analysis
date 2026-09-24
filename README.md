@@ -106,7 +106,7 @@ The notebook performs EDA, trains Decision Tree / Random Forest / Extra Trees / 
 
 | File                              | Description                          |
 |-----------------------------------|--------------------------------------|
-| `extar_trees_credit_model.pkl`    | Trained Extra Trees classifier       |
+| `extra_trees_credit_model.pkl`    | Trained Extra Trees classifier       |
 | `Sex_encoder.pkl`                 | LabelEncoder for Sex                 |
 | `Housing_encoder.pkl`             | LabelEncoder for Housing             |
 | `Saving accounts_encoder.pkl`     | LabelEncoder for Saving accounts     |
