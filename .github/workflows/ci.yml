@@ -31,23 +31,9 @@ jobs:
           python -m py_compile app.py db.py
           echo "Syntax OK"
 
-      - name: Import check
+      - name: Run tests
         run: |
-          python -c "
-          import joblib
-          import pandas as pd
-          from sklearn.ensemble import ExtraTreesClassifier
-          print('Core imports OK')
-
-          # Verify model and encoders load
-          model = joblib.load('extra_trees_credit_model.pkl')
-          print(f'Model type: {type(model).__name__}')
-
-          for col in ['Sex', 'Housing', 'Saving accounts', 'Checking account']:
-              enc = joblib.load(f'{col}_encoder.pkl')
-              print(f'Encoder loaded: {col}')
-          print('All artifacts load successfully')
-          "
+          pytest tests/ -v
 
       - name: Check required files exist
         run: |
