@@ -167,10 +167,17 @@ This project uses the well-known [Statlog German Credit Data](https://archive.ic
 3. The Extra Trees model returns class (GOOD/BAD) and probability.
 4. Result is displayed and (if DB is available) written to `prediction_log`.
 
-## Known limitations
+## CI/CD
 
-- No automated tests yet.
+GitHub Actions runs on every push and pull request to `master`/`main`:
+
+1. **Test & Validate** — installs dependencies, checks Python syntax, loads the model + encoders, verifies required files exist
+2. **Build Docker image** — builds the production image (does not push)
+
+Workflow file: `.github/workflows/ci.yml`
 
 ## License
 
-This project uses the publicly available German Credit Data. Use at your own risk for educational / research purposes.
+## License
+
+This project uses the publicly available German Credit Data. Use it  for educational / research purposes.
